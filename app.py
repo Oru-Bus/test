@@ -1,3 +1,4 @@
+import os
 import socket
 import threading
 
@@ -25,7 +26,9 @@ def handle_client(client_socket, addr):
             del clients[pseudo]
         client_socket.close()
 
-def start_server(host='0.0.0.0', port=12345):
+def start_server(host='0.0.0.0', default_port=12345):
+    # Récupère le port dynamique fourni par Railway ou utilise 12345 par défaut
+    port = int(os.getenv("PORT", default_port))  
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((host, port))
     server.listen(5)
